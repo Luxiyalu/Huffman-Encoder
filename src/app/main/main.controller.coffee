@@ -75,10 +75,10 @@ angular.module 'huffman'
       
     ## testing:
     # encode:
-    # 
+    #
     # $scope.encode('bbac  cc')
     # console.log $scope
-    # 
+    #
     # decode:
     # $scope.encodedText = "0011"
     # $scope.pushPairToDict('a', '00')
