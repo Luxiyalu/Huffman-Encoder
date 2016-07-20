@@ -6,19 +6,55 @@
 // endbower
 
 h1 {
-  background-color: #5aadbb;
+  /*background-color: #5aadbb;*/
   margin: 0;
   padding: 30px;
-  color: antiquewhite;
+  /*color: antiquewhite;*/
+}
+
+table {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    border-spacing: 0;
+    border-radius: 2px;
+}
+
+md-content {
+    padding: 10px 50px;
+}
+
+md-input-container {
+    width: 100%;
+}
+
+td, th {
+    padding: 12px 16px;
+    background-color: #4C9EF0;
+    color: white;
+    text-align: left;
+}
+
+td {
+    color: black;
+    vertical-align: top;
+}
+
+tr:nth-child(even) td {
+    background-color: #D1DEEC;
+}
+
+tr:nth-child(odd) td {
+    background-color: #E3ECF5;
 }
 
 
 @import url(//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Roboto:400,700,700italic,400italic);
 
 @font-face {
-  font-family: 'Material Icons';
-  font-style: normal;
   font-weight: 400;
+  font-style: normal;
+  font-family: 'Material Icons';
   src: url(../../bower_components/material-design-iconfont/iconfont/MaterialIcons-Regular.eot); /* For IE6-8 */
   src: local('Material Icons'),
        local('MaterialIcons-Regular'),
@@ -28,17 +64,17 @@ h1 {
 }
 
 .material-icons {
-  font-family: 'Material Icons';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;  /* Preferred icon size */
   display: inline-block;
   width: 1em;
   height: 1em;
-  line-height: 1;
   text-transform: none;
-  letter-spacing: normal;
   word-wrap: normal;
+  letter-spacing: normal;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  font-family: 'Material Icons';
+  line-height: 1;
 
   /* Support for all WebKit browsers. */
   -webkit-font-smoothing: antialiased;
@@ -53,7 +89,7 @@ h1 {
 }
 
 html {
-  font-family: 'Roboto Slab', serif;
+  /*font-family: 'Roboto Slab', serif;*/
 }
 
 [layout=row] {
