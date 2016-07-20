@@ -49,8 +49,7 @@ angular.module 'huffman'
       $scope.dictArr.push(char: char, code: code)
       
     $scope.dictArr = []
-    # $scope.dictObj = {}
-    # $scope.pushPairToDict()
+    $scope.pushPairToDict()
     
     $scope.decode = ->
       
@@ -69,7 +68,10 @@ angular.module 'huffman'
         textDecoded = textDecoded + match.char
         return recDecode(textToDecode, textDecoded)
         
-      $scope.textDecoded = recDecode($scope.text, "")
+      $scope.textDecoded = recDecode($scope.encodedText, "")
+      
+    $scope.removePair = (i) ->
+      $scope.dictArr.splice(i, 1)
       
     ## testing:
     # encode:
@@ -78,7 +80,7 @@ angular.module 'huffman'
     # console.log $scope
     # 
     # decode:
-    # $scope.text = "0011"
+    # $scope.encodedText = "0011"
     # $scope.pushPairToDict('a', '00')
     # $scope.pushPairToDict('b', '11')
     # $scope.decode()
