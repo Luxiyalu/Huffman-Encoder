@@ -44,8 +44,43 @@ angular.module 'huffman'
           
       walkTheTree(tree, '')
       
-    # testing:
+    # upon entering decoder:
+    $scope.pushPairToDict = (char = "", code = "") ->
+      $scope.dictArr.push(char: char, code: code)
+      
+    $scope.dictArr = []
+    # $scope.dictObj = {}
+    # $scope.pushPairToDict()
+    
+    $scope.decode = ->
+      
+      recDecode = (textToDecode, textDecoded) ->
+        if textToDecode.length == 0
+          return textDecoded
+        
+        match = _.find $scope.dictArr, (pair) ->
+          text = textToDecode.slice(0, pair.code.length)
+          return text == pair.code
+        
+        if !match
+          return console.log 'Values error'
+        
+        textToDecode = textToDecode.slice(match.code.length)
+        textDecoded = textDecoded + match.char
+        return recDecode(textToDecode, textDecoded)
+        
+      $scope.textDecoded = recDecode($scope.text, "")
+      
+    ## testing:
+    # encode:
+    # 
     # $scope.encode('bbac  cc')
     # console.log $scope
+    # 
+    # decode:
+    # $scope.text = "0011"
+    # $scope.pushPairToDict('a', '00')
+    # $scope.pushPairToDict('b', '11')
+    # $scope.decode()
     
     return
