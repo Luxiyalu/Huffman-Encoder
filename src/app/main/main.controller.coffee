@@ -44,34 +44,49 @@ angular.module 'huffman'
           
       walkTheTree(tree, '')
       
-    # upon entering decoder:
-    $scope.pushPairToDict = (char = "", code = "") ->
-      $scope.dictArr.push(char: char, code: code)
+    $scope.appendBranch = (tree) ->
+      tree.type = 'branch'
+      tree.code = tree.code || ''
+      tree.branches = [
+        {bit: 0, code: tree.code + '0'}
+        {bit: 1, code: tree.code + '1'}
+      ]
+      delete tree['char']
+      delete tree['code']
       
-    $scope.dictArr = []
-    $scope.pushPairToDict()
+    # upon entering decoder:
+    $scope.initDecode = ->
+      $scope.tree = {}
+      $scope.appendBranch($scope.tree)
+      
     
     $scope.decode = ->
       
-      recDecode = (textToDecode, textDecoded) ->
+      recDecode = (textToDecode, tree, textDecoded) ->
+        # console.log textToDecode, tree, textDecoded
+        
         if textToDecode.length == 0
+          char = tree.char || '[undefined character]'
+          textDecoded = textDecoded + char
           return textDecoded
         
-        match = _.find $scope.dictArr, (pair) ->
-          text = textToDecode.slice(0, pair.code.length)
-          return text == pair.code
+        if !tree.branches
+          char = tree.char || '[undefined character]'
+          textDecoded = textDecoded + char
+          return recDecode(textToDecode, $scope.tree, textDecoded)
         
-        if !match
-          return console.log 'Values error'
+        if tree.branches
+          # console.log 3
+          bit = textToDecode[0]
+          tree = tree.branches[bit]
+          textToDecode = textToDecode.slice(1)
+          return recDecode(textToDecode, tree, textDecoded)
         
-        textToDecode = textToDecode.slice(match.code.length)
-        textDecoded = textDecoded + match.char
-        return recDecode(textToDecode, textDecoded)
+        else
+          console.log '?'
         
-      $scope.textDecoded = recDecode($scope.encodedText, "")
-      
-    $scope.removePair = (i) ->
-      $scope.dictArr.splice(i, 1)
+      $scope.textDecoded = recDecode($scope.encodedText, $scope.tree, "")
+      console.log $scope.textDecoded
       
     ## testing:
     # encode:
@@ -80,9 +95,7 @@ angular.module 'huffman'
     # console.log $scope
     #
     # decode:
-    # $scope.encodedText = "0011"
-    # $scope.pushPairToDict('a', '00')
-    # $scope.pushPairToDict('b', '11')
+    $scope.encodedText = "01"
     # $scope.decode()
     
     return

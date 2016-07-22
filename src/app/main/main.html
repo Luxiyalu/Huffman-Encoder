@@ -1,7 +1,6 @@
 <div>
 
   <md-content flex>
-  <!--<md-content layout="column" layout-align="center center" flex>-->
     <header>
       <h1 class="text-center">Huffman Encoder</h1>
     </header>
@@ -38,7 +37,7 @@
         </md-tab-body>
       </md-tab>
 
-      <md-tab label="Decoder">
+      <md-tab label="Decoder" md-on-select="initDecode()">
         <md-tab-body>
           <div>
               <md-input-container class="md-block" flex>
@@ -46,38 +45,17 @@
                 <textarea ng-model="encodedText" rows="5" md-select-on-focus></textarea>
               </md-input-container>
             
-              <table>
+              <table class="text-center">
                   <thead>
-                      <tr>
-                        <th>Character</th>
-                        <th>Corresponding Code</th>
-                        <th>Action</th>
-                      </tr>
+                      <tr><th class="text-center">Huffman Tree</th></tr>
                   </thead>
                   <tbody>
-                      <tr ng-repeat="pair in dictArr">
-                        <td>
-                          <md-input-container class="md-block" flex>
-                            <label>Character</label>
-                            <input type="text" ng-model="pair.char">
-                          </md-input-container>
-                        </td>
-                        <td>
-                          <md-input-container class="md-block" flex>
-                            <label>Code</label>
-                            <input type="text" ng-model="pair.code">
-                          </md-input-container>
-                        </td>
-                        <td>
-                          <md-button ng-click="removePair($index)" class="md-raised md-primary">Remove Pair</md-button>
-                        </td>
-                      </tr>
-                      <tr>
-                          <td colspan="3">
-                              <md-button ng-click="pushPairToDict()" class="md-raised md-primary">Add Pair</md-button>
-                              <md-button ng-click="decode()" class="md-raised md-primary">Decode</md-button>
-                          </td>
-                      </tr>
+                      <tr><td>
+                          <div ng-include="'app/components/divide.directive.html'"></div>
+                      </td></tr>
+                      <tr><td>
+                          <md-button ng-click="decode()" class="md-raised md-primary">Decode</md-button>
+                      </td></tr>
                   </tbody>
               </table>
             

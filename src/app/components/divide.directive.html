@@ -1,0 +1,20 @@
+<div ng-switch="tree.type">
+    <div ng-switch-default layout="column">
+        <pre>{{ tree.bit }}</pre>
+        <md-input-container class="md-block" flex>
+            <label>Character</label>
+            <input type="text" ng-model="tree.char">
+        </md-input-container>
+        <md-button ng-click="appendBranch(tree)" class="md-raised">Append Branch</md-button>
+    </div>
+    
+    <div ng-switch-when="branch" layout="column">
+        <pre>{{ tree.bit }}</pre>
+        <md-divider></md-divider>
+        <div layout="row" layout-align="center center">
+            <div ng-repeat="tree in tree.branches">
+                <div ng-include="'app/components/divide.directive.html'"></div>
+            </div>
+        </div>
+    </div>
+</div>
