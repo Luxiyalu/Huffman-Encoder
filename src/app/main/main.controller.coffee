@@ -13,37 +13,45 @@ angular.module 'huffman'
       arr = text.split('')
       frequency = _.countBy(arr)
       frequencyArr = _.map frequency, (fre, cha) -> constructDataObj(cha, fre)
+      
       tree = constructTreeObj(frequencyArr)
       
-      $scope.codeToChar = {}
       $scope.charToCode = {}
       mapCodeFromTree(tree)
       
       codeArr = _.map arr, (cha) -> $scope.charToCode[cha]
       $scope.code = codeArr.join('')
       
+    # recursively combine the lowest 2 frequent branches,
+    # until left with one main branch.
     constructTreeObj = (arr) ->
       if arr.length == 1 then return arr[0] # the end result should be an object
       sorted = _.sortBy(arr, 'fre') # sort array from low to high
-      # combine the lowest/first 2
+      # combine the lowest (first) 2 into a new element
       a = sorted.shift()
       b = sorted.shift()
       newElement = mergeIntoTreeBranch(a, b)
       sorted.push(newElement)
       return constructTreeObj(sorted)
     
+    # recursively walk the tree, map out the translation from character to code
     mapCodeFromTree = (tree) ->
       walkTheTree = (tree, code) ->
         if !tree.children?
           cha = tree.cha
           $scope.charToCode[cha] = code
-          $scope.codeToChar[code] = cha
         else
           walkTheTree(tree.children[0], code+'0')
           walkTheTree(tree.children[1], code+'1')
           
       walkTheTree(tree, '')
       
+
+
+
+
+    # decode:
+
     $scope.appendBranch = (tree) ->
       tree.type = 'branch'
       tree.code = tree.code || ''
@@ -63,7 +71,6 @@ angular.module 'huffman'
     $scope.decode = ->
       
       recDecode = (textToDecode, tree, textDecoded) ->
-        # console.log textToDecode, tree, textDecoded
         
         if textToDecode.length == 0
           char = tree.char || '[undefined character]'
@@ -76,7 +83,6 @@ angular.module 'huffman'
           return recDecode(textToDecode, $scope.tree, textDecoded)
         
         if tree.branches
-          # console.log 3
           bit = textToDecode[0]
           tree = tree.branches[bit]
           textToDecode = textToDecode.slice(1)
@@ -86,7 +92,6 @@ angular.module 'huffman'
           console.log '?'
         
       $scope.textDecoded = recDecode($scope.encodedText, $scope.tree, "")
-      console.log $scope.textDecoded
       
     ## testing:
     # encode:
@@ -95,7 +100,7 @@ angular.module 'huffman'
     # console.log $scope
     #
     # decode:
-    $scope.encodedText = "01"
+    # $scope.encodedText = "01"
     # $scope.decode()
     
     return
